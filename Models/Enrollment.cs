@@ -27,4 +27,8 @@ public class Enrollment
         EnrollmentDate = DateTime.Now;
         Status = status;
     }
+    public void UpdateStatus(EnrollmentStatus status)
+    {
+        Status = status;
+    }
 }

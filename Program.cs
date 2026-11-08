@@ -6,13 +6,11 @@ using TrainingCenterManagement.Services;
 TrainingCenterData data = new TrainingCenterData();
 
 StudentService studentService = new StudentService(data);
-
-InstructorService instructorService =
-    new InstructorService(data);
-
+InstructorService instructorService = new InstructorService(data);
 CourseService courseService = new CourseService(data);
+EnrollmentService enrollmentService = new EnrollmentService(data);
 
-// Add instructor
+// Create instructor
 Instructor instructor = new Instructor(
     1,
     "Ahmad",
@@ -20,31 +18,45 @@ Instructor instructor = new Instructor(
     "Backend Development"
 );
 
-Console.WriteLine(instructorService.AddInstructor(instructor));
+instructorService.AddInstructor(instructor);
 
-// Add student
-Student student = new Student(
-    1,
-    "Sara",
-    "sara@gmail.com"
-);
+// Create students
+Student student1 = new Student(1, "Sara", "sara@gmail.com");
+Student student2 = new Student(2, "Omar", "omar@gmail.com");
+Student student3 = new Student(3, "Lina", "lina@gmail.com");
 
-Console.WriteLine(studentService.AddStudent(student));
+studentService.AddStudent(student1);
+studentService.AddStudent(student2);
+studentService.AddStudent(student3);
 
-// Add course
+// Create course with capacity 1
 Course course = new Course(
     1,
     "C# Fundamentals",
     100,
-    20,
+    1,
     1,
     CourseLevel.Beginner
 );
 
-Console.WriteLine(courseService.AddCourse(course));
+courseService.AddCourse(course);
 
-// Get all students
-foreach (Student s in studentService.GetAllStudents())
+// Enrollment tests
+Console.WriteLine(enrollmentService.EnrollStudent(1, 1));
+Console.WriteLine(enrollmentService.EnrollStudent(2, 1));
+Console.WriteLine(enrollmentService.EnrollStudent(3, 1));
+
+// Cancel first enrollment
+Console.WriteLine(enrollmentService.CancelEnrollment(1));
+
+// Check course
+Console.WriteLine($"Enrolled: {course.EnrolledStudentsCount}");
+Console.WriteLine($"Available: {course.AvailableSeats}");
+
+// Print enrollments
+foreach (Enrollment enrollment in enrollmentService.GetEnrollmentsByCourse(1))
 {
-    Console.WriteLine($"{s.Id} - {s.Name} - {s.Email}");
+    Console.WriteLine(
+        $"Student: {enrollment.StudentId}, Status: {enrollment.Status}"
+    );
 }

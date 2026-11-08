@@ -13,6 +13,7 @@ namespace TrainingCenterManagement.Models
         public int Capacity { get; private set; }
         public int InstructorId { get; private set; }
         public CourseLevel Level { get; private set; }
+        public int EnrolledStudentsCount { get; private set; }
 
         public Course(
             int id,
@@ -28,6 +29,20 @@ namespace TrainingCenterManagement.Models
             Capacity = capacity;
             InstructorId = instructorId;
             Level = level;
+        }
+        public int AvailableSeats => Capacity - EnrolledStudentsCount;
+
+        public void IncreaseEnrollmentCount()
+        {
+            EnrolledStudentsCount++;
+        }
+
+        public void DecreaseEnrollmentCount()
+        {
+            if (EnrolledStudentsCount > 0)
+            {
+                EnrolledStudentsCount--;
+            }
         }
     }
 }
