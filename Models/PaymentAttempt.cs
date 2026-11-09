@@ -32,4 +32,12 @@ public class PaymentAttempt
         AttemptedAt = DateTime.Now;
         FailureReason = failureReason;
     }
+
+    public void UpdateStatus(
+        PaymentStatus status,
+        string? failureReason = null)
+    {
+        Status = status;
+        FailureReason = failureReason;
+    }
 }

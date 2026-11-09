@@ -1,6 +1,8 @@
 ﻿using TrainingCenterManagement.Data;
 using TrainingCenterManagement.Enums;
+using TrainingCenterManagement.Interfaces;
 using TrainingCenterManagement.Models;
+using TrainingCenterManagement.PaymentMethods;
 using TrainingCenterManagement.Services;
 
 TrainingCenterData data = new TrainingCenterData();
@@ -60,3 +62,24 @@ foreach (Enrollment enrollment in enrollmentService.GetEnrollmentsByCourse(1))
         $"Student: {enrollment.StudentId}, Status: {enrollment.Status}"
     );
 }
+PaymentService paymentService = new PaymentService(data);
+
+// First attempt: failed card payment
+IPaymentMethod failedCard = new CardPaymentMethod(false);
+
+PaymentResult firstResult = paymentService.ProcessPayment(
+    1,
+    100,
+    failedCard
+);
+
+Console.WriteLine($"First attempt: {firstResult}");
+
+// Second attempt: successful card payment
+IPaymentMethod successfulCard = new CardPaymentMethod(true);
+
+PaymentResult secondResult = paymentService.ProcessPayment(
+    1,
+    100,
+    successfulCard
+);
